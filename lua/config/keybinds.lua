@@ -42,13 +42,33 @@ keymap.set("n", "<leader>ex", function()
 
         Cterm:toggle()
     elseif filetype == "lua" then
-        local luaterm = Terminal:new({
-            cmd = "lua " .. file,
-            direction = "float",
-            close_on_exit = false,
-            hidden = true,
-        })
-        luaterm:toggle()
+        vim.ui.select(
+            { "Lua (Vainilla)", "Lua (love2D)" },
+            {
+                prompt = "choose Which ",
+                format_item = function(item)
+                    return "" .. item
+                end,
+            }, function(Lchoice)
+                if Lchoice == "Lua (Vainilla)" then
+                    local luaterm = Terminal:new({
+                        cmd = "lua" .. file,
+                        direction = "float",
+                        close_on_exit = false,
+                        hidden = true,
+                    })
+                    luaterm:toggle()
+                elseif Lchoice == "Lua (love2D)" then
+                    local luloveterm = Terminal:new({
+                        cmd = "lovec .",
+                        direction = "float",
+                        close_on_exit = true,
+                        hidden = true,
+                    })
+                    luloveterm:toggle()
+                end
+            end
+        )
     elseif filetype == 'python' then
         local pyterm = Terminal:new({
             cmd = "python " .. file,

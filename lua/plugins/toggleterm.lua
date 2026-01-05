@@ -11,7 +11,10 @@ return {
                 end
             end,
             open_mapping = [[<C-d>]],
-            shell = jit.os == "Windows" and "pwsh" or "zsh"
+            shell = jit.os == "Windows" and "pwsh" or "zsh",
+            float_opts = {
+                border = 'double'
+            }
         })
     end,
 }

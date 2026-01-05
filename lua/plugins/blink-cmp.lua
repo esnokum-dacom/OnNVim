@@ -16,7 +16,6 @@ return {
                     end
                 end,
                 'snippet_forward',
-                'fallback'
             },
             ['<CR>'] = { 'accept', 'fallback' },
         },
