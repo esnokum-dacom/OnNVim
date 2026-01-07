@@ -17,7 +17,7 @@ return {
                     border = "double",
                 },
                 prompt_position = "bottom",
-                height = 0.8,
+                height = 0.5,
                 border = "double",
             }
         })
