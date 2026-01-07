@@ -1,4 +1,4 @@
-local keymap = vim.keymap
+keymap = vim.keymap
 local opts = { noremap = true, silent = true }
 
 vim.g.mapleader = " "
@@ -10,6 +10,51 @@ keymap.set("n", "<leader><leader>", "<cmd>FzfLua files<CR>", opts)
 keymap.set("n", "<leader>fr", function()
     FzfLua.live_grep({ search = vim.fn.input("Word to grep ") })
 end, opts)
+
+-- colorscheme
+local theme_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
+keymap.set('n', '<leader>sc',
+    function()
+        vim.ui.select(
+            { 'gruvbox', 'gruvbox-material', 'onedark', 'nord', 'rose-pine', 'kanagawa', 'kanagawa-dragon', },
+            {
+                prompt = "Choose colorscheme ",
+                format_item = function(item)
+                    return "" .. item
+                end,
+            }, function(choice)
+                local ch = ''
+                if choice == "gruvbox" then
+                    ch = choice
+                    vim.cmd.colorscheme(ch)
+                elseif choice == "gruvbox-material" then
+                    ch = choice
+                    vim.cmd.colorscheme(ch)
+                elseif choice == "onedark" then
+                    ch = choice
+                    vim.cmd.colorscheme(ch)
+                elseif choice == "nord" then
+                    ch = choice
+                    vim.cmd.colorscheme(ch)
+                elseif choice == "rose-pine" then
+                    ch = choice
+                    vim.cmd.colorscheme(ch)
+                elseif choice == "kanagawa" then
+                    ch = choice
+                    vim.cmd.colorscheme(ch)
+                elseif choice == "kanagawa-dragon" then
+                    ch = choice
+                    vim.cmd.colorscheme(ch)
+                end
+                local f = io.open(theme_file, "w")
+                if f then
+                    f:write(choice)
+                    f:close()
+                end
+            end
+        )
+    end
+)
 
 -- buffers
 
@@ -52,7 +97,7 @@ keymap.set("n", "<leader>ex", function()
             }, function(Lchoice)
                 if Lchoice == "Lua (Vainilla)" then
                     local luaterm = Terminal:new({
-                        cmd = "lua" .. file,
+                        cmd = "lua " .. file,
                         direction = "float",
                         close_on_exit = false,
                         hidden = true,
@@ -77,5 +122,13 @@ keymap.set("n", "<leader>ex", function()
             hidden = true,
         })
         pyterm:toggle()
+    elseif filetype == 'javascript' then
+        local jsterm = Terminal:new({
+            cmd = "node " .. file,
+            direction = "float",
+            close_on_exit = false,
+            hidden = true,
+        })
+        jsterm:toggle()
     end
 end)

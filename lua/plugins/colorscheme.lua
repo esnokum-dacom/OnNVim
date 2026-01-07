@@ -1,12 +1,37 @@
 return {
- "ellisonleao/gruvbox.nvim",
- priority = 1000,
- config = true,
- opts = {
-  invert_selection = true,
- },
- config = function (_, opts)
- 	require("gruvbox").setup(opts)
-	vim.cmd.colorscheme "gruvbox"
- end
+    {
+        "ellisonleao/gruvbox.nvim",
+        priority = 1000,
+    },
+
+    {
+        'shaunsingh/nord.nvim',
+        priority = 1000,
+    },
+
+    {
+        'rose-pine/neovim',
+        name = 'rose-pine',
+        priority = 1000,
+    },
+
+    {
+        'navarasu/onedark.nvim',
+        priority = 1000,
+        config = function()
+            require('onedark').setup {
+                style = 'deep'
+            }
+        end
+    },
+
+    {
+        'sainnhe/gruvbox-material',
+        priority = 1000,
+    },
+
+    {
+        'rebelot/kanagawa.nvim',
+        priority = 1000,
+    },
 }
