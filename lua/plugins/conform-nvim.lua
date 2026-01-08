@@ -4,10 +4,10 @@ return {
         require("conform").setup({
             formatters_by_ft = {
                 lua = { "stylua" },
-		javascript = { "prettierd", "prettier", stop_after_first = true },
+                javascript = { "prettierd", "prettier", stop_after_first = true },
                 typescript = { "prettierd", "prettier" },
-                c = { "clangd", "clang-format" },
-                cpp = { "clangd", "clang-format" },
+                c = { "clang-format", prepend_args = { "--style='{BasedOnStyle: llvm, IndentWidth: 8}'" } },
+                cpp = { "clang-format" },
             },
         })
     end

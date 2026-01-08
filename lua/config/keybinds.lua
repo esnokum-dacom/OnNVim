@@ -78,14 +78,34 @@ keymap.set("n", "<leader>ex", function()
     end
 
     if filetype == "c" then
-        local Cterm = Terminal:new({
-            cmd = Com,
-            direction = "float",
-            close_on_exit = false,
-            hidden = true,
-        })
-
-        Cterm:toggle()
+        vim.ui.select(
+            { "C vanilla", "C (raylib)" },
+            {
+                prompt = "Choose compiler ",
+                format_item = function(item)
+                    return "" .. item
+                end,
+            }, function(choice)
+                if choice == "C vanilla" then
+                    local Cterm = Terminal:new({
+                        cmd = Com,
+                        direction = "float",
+                        close_on_exit = false,
+                        hidden = true,
+                    })
+                    Cterm:toggle()
+                elseif choice == "C (raylib)" then
+                    Com = "gcc " .. file .. " -o " .. filename .. " -I./include -L./lib -lraylib && ./" .. filename
+                    local Crterm = Terminal:new({
+                        cmd = Com,
+                        direction = "float",
+                        close_on_exit = false,
+                        hidden = true,
+                    })
+                    Crterm:toggle()
+                end
+            end
+        )
     elseif filetype == "lua" then
         vim.ui.select(
             { "Lua (Vainilla)", "Lua (love2D)" },

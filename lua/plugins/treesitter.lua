@@ -25,6 +25,7 @@ return {
             "vim",
             "vimdoc",
             "c",
+            "c_sharp",
             "cpp",
             "dockerfile",
             "gitignore",
