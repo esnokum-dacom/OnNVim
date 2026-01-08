@@ -6,7 +6,6 @@ return {
         'saghen/blink.cmp',
     },
     config = function()
-        -- Autoformat on save
         local autoformat_filetypes = {
             "lua",
             "javascript",
