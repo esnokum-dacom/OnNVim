@@ -13,7 +13,7 @@ return {
                 lualine_b = { 'branch', 'diff', 'diagnostics', 'filename' },
                 lualine_c = { "buffers" },
                 lualine_x = {},
-                lualine_y = { 'progress', 'location' },
+                lualine_y = { { 'filetype', icon = { align = 'right' }, }, 'progress', 'location' },
                 lualine_z = { function()
                     return os.date("%H-%M")
                 end }

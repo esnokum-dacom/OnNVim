@@ -14,7 +14,6 @@ return {
                 "c",
                 "html",
                 "css",
-                "csharp",
             }
             vim.api.nvim_create_autocmd('LspAttach', {
                 callback = function(args)
@@ -127,7 +126,6 @@ return {
                     "eslint",
                     "pyright",
                     "clangd",
-                    "csharp_ls",
                 },
                 automatic_installation = true,
                 handlers = {
