@@ -11,8 +11,20 @@ keymap.set("n", "<leader>fr", function()
     FzfLua.live_grep({ search = vim.fn.input("Word to grep ") })
 end, opts)
 
--- colorscheme
+-- files
+local gcc_file = vim.fn.stdpath("config") .. "/gcc.txt"
 local theme_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
+
+local f = io.open(gcc_file, "w")
+local fr = io.open(gcc_file, "r")
+local flags = ""
+if fr then
+    flags = fr:read("*a")
+    fr:close()
+end
+
+-- colorscheme
+
 keymap.set("n", "<leader>sc", function()
     vim.ui.select({ "gruvbox", "gruvbox-material", "onedark", "nord", "rose-pine", "kanagawa", "kanagawa-dragon" }, {
         prompt = "Choose colorscheme ",
@@ -97,15 +109,22 @@ keymap.set("n", "<leader>ex", function()
                 })
                 Crterm:toggle()
             elseif choice == "Custom C/GCC command" then
-                Com = vim.ui.input({ prompt = "Enter Gcc command" }, function(input)
+                vim.notify("default = [" .. flags .. "]")
+                Com = vim.ui.input({ prompt = "Enter gcc options for compile", default = flags }, function(input)
+                    print(flags)
                     Com = input
-                    --local Gccterm = Terminal:new({
-                    --    cmd = Com,
-                    --    direction = "float",
-                    --    close_on_exit = false,
-                    --    hidden = true,
-                    --})
-                    --Gccterm:toggle()
+                    --     local Gccterm = Terminal:new({
+                    --         cmd = "gcc " .. file .. " -o " .. filename .. Com .. "&& ./" .. filename,
+                    --         direction = "float",
+                    --         close_on_exit = false,
+                    --         hidden = true,
+                    --     })
+
+                    if f then
+                        f:write(Com)
+                        f:close()
+                    end
+                    --       Gccterm:toggle()
                 end)
             end
         end)
