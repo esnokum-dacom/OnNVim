@@ -7,5 +7,6 @@ vim.o.wrap = true
 vim.o.softtabstop = 4
 vim.opt.termguicolors = true
 vim.opt.undofile = true
+vim.o.autoindent = true
 
-vim.lsp.enable('lua_ls')
+vim.lsp.enable("lua_ls")
