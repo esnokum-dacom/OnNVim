@@ -15,7 +15,6 @@ end, opts)
 local gcc_file = vim.fn.stdpath("config") .. "/gcc.txt"
 local theme_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
 
-local f = io.open(gcc_file, "w")
 local fr = io.open(gcc_file, "r")
 local flags = ""
 if fr then
@@ -110,21 +109,25 @@ keymap.set("n", "<leader>ex", function()
                 Crterm:toggle()
             elseif choice == "Custom C/GCC command" then
                 vim.notify("default = [" .. flags .. "]")
-                Com = vim.ui.input({ prompt = "Enter gcc options for compile", default = flags }, function(input)
-                    print(flags)
-                    Com = input
-                    --     local Gccterm = Terminal:new({
-                    --         cmd = "gcc " .. file .. " -o " .. filename .. Com .. "&& ./" .. filename,
-                    --         direction = "float",
-                    --         close_on_exit = false,
-                    --         hidden = true,
-                    --     })
+                vim.ui.input({ prompt = "Enter gcc options for compile", default = flags }, function(input)
+                    if not input then
+                        return
+                    end
 
+                    local Gccterm = Terminal:new({
+                        cmd = "gcc " .. file .. " -o " .. filename .. input .. "&& ./" .. filename,
+                        direction = "float",
+                        close_on_exit = false,
+                        hidden = true,
+                    })
+
+                    local f = io.open(gcc_file, "w")
                     if f then
-                        f:write(Com)
+                        f:write(input)
                         f:close()
                     end
-                    --       Gccterm:toggle()
+
+                    Gccterm:toggle()
                 end)
             end
         end)
