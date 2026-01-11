@@ -8,7 +8,19 @@ return {
                 typescript = { "prettierd", "prettier" },
                 c = { "clang-format", prepend_args = { "--style='{BasedOnStyle: llvm, IndentWidth: 8}'" } },
                 cpp = { "clang-format" },
+                cs = { "csharpier_ramboe" },
+                csproj = { "csharpier_ramboe" },
             },
+            formatters = {
+                csharpier_ramboe = {
+                    command = "csharpier",
+                    args = {
+                        "format",
+                        "--write-stdout",
+                    },
+                    to_stdin = true,
+                }
+            }
         })
     end
 }

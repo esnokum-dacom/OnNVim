@@ -88,10 +88,9 @@ return {
                     -- Actions
                     vim.keymap.set('n', '<F2>', vim.lsp.buf.rename, opts)
                     vim.keymap.set('n', '<F4>', vim.lsp.buf.code_action, opts)
-                    vim.keymap.set({ 'n', 'x' }, '<F3>', function()
+                    vim.keymap.set({ 'n', 'x' }, '<leader>fm', function()
                         vim.lsp.buf.format({ async = true })
                     end, opts)
-
                     -- Diagnostics navigation
                     vim.keymap.set('n', '[d', vim.diagnostic.goto_prev, opts)
                     vim.keymap.set('n', ']d', vim.diagnostic.goto_next, opts)
@@ -119,6 +118,7 @@ return {
             require('mason-lspconfig').setup({
                 ensure_installed = {
                     "lua_ls",
+                    "stylua",
                     "html",
                     "cssls",
                     "ts_ls",
