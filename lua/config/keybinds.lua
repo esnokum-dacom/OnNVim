@@ -241,6 +241,54 @@ keymap.set("n", "<leader>ex", function()
                 end)
             end
         end)
+    elseif filetype == "cpp" then
+        vim.ui.select({ "C vanilla", "C (raylib)", "Custom C/GCC command" }, {
+            prompt = "Choose compiler ",
+            format_item = function(item)
+                return "" .. item
+            end,
+        }, function(choice)
+            if choice == "C vanilla" then
+                local Cterm = Terminal:new({
+                    cmd = Com,
+                    direction = "float",
+                    close_on_exit = false,
+                    hidden = true,
+                })
+                Cterm:toggle()
+            elseif choice == "C (raylib)" then
+                Com = "g++ " .. file .. " -o " .. filename .. " -I./include -L./lib -lraylib && ./" .. filename
+                local Crterm = Terminal:new({
+                    cmd = Com,
+                    direction = "float",
+                    close_on_exit = false,
+                    hidden = true,
+                })
+                Crterm:toggle()
+            elseif choice == "Custom C/GCC command" then
+                vim.notify("default = [" .. flags .. "]")
+                vim.ui.input({ prompt = "Enter gcc options for compile", default = flags }, function(input)
+                    if not input then
+                        return
+                    end
+
+                    local Gccterm = Terminal:new({
+                        cmd = "g++ " .. file .. " " .. input .. " -o " .. filename .. " && ./" .. filename,
+                        direction = "float",
+                        close_on_exit = false,
+                        hidden = true,
+                    })
+
+                    local f = io.open(gcc_file, "w")
+                    if f then
+                        f:write(input)
+                        f:close()
+                    end
+
+                    Gccterm:toggle()
+                end)
+            end
+        end)
     elseif filetype == "lua" then
         vim.ui.select({ "Lua (Vainilla)", "Lua (love2D)" }, {
             prompt = "choose Which ",
