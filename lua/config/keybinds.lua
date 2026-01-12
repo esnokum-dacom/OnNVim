@@ -15,7 +15,6 @@ end, opts)
 local gcc_file = vim.fn.stdpath("config") .. "/gcc.txt"
 local theme_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
 
-local f = io.open(gcc_file, "w")
 local fr = io.open(gcc_file, "r")
 local flags = ""
 if fr then
@@ -23,10 +22,18 @@ if fr then
     fr:close()
 end
 
+local function saveTheme(themes)
+    local f = io.open(theme_file, "w")
+    if f then
+        f:write(themes)
+        f:close()
+    end
+end
+
 -- colorscheme
 
 keymap.set("n", "<leader>sc", function()
-    vim.ui.select({ "gruvbox", "gruvbox-material", "onedark", "nord", "rose-pine", "kanagawa", "kanagawa-dragon" }, {
+    vim.ui.select({ "gruvbox", "onedark", "nord", "rose-pine", "kanagawa", "oxocarbon", "fox" }, {
         prompt = "Choose colorscheme ",
         format_item = function(item)
             return "" .. item
@@ -34,11 +41,24 @@ keymap.set("n", "<leader>sc", function()
     }, function(choice)
         local ch = ""
         if choice == "gruvbox" then
-            ch = choice
-            vim.cmd.colorscheme(ch)
-        elseif choice == "gruvbox-material" then
-            ch = choice
-            vim.cmd.colorscheme(ch)
+            vim.ui.select({ "gruvbox", "gruvbox-material", "retrobox" }, {
+                prompt = "Choose " .. choice .. " themes",
+                format_item = function(item)
+                    return "" .. item
+                end,
+            }, function(gruvThemes)
+                if gruvThemes == "gruvbox" then
+                    ch = gruvThemes
+                    vim.cmd.colorscheme(ch)
+                elseif gruvThemes == "gruvbox-material" then
+                    ch = gruvThemes
+                    vim.cmd.colorscheme(ch)
+                elseif gruvThemes == "retrobox" then
+                    ch = gruvThemes
+                    vim.cmd.colorscheme(ch)
+                end
+                saveTheme(gruvThemes)
+            end)
         elseif choice == "onedark" then
             ch = choice
             vim.cmd.colorscheme(ch)
@@ -46,20 +66,76 @@ keymap.set("n", "<leader>sc", function()
             ch = choice
             vim.cmd.colorscheme(ch)
         elseif choice == "rose-pine" then
-            ch = choice
-            vim.cmd.colorscheme(ch)
+            vim.ui.select({ "rose-pine", "rose-pine-dawn", "rose-pine-main", "rose-pine-moon" }, {
+                prompt = "Choose " .. choice .. " themes",
+                format_item = function(item)
+                    return "" .. item
+                end,
+            }, function(roseTheme)
+                if roseTheme == "rose-pine" then
+                    ch = roseTheme
+                    vim.cmd.colorscheme(ch)
+                elseif roseTheme == "rose-pine-dawn" then
+                    ch = roseTheme
+                    vim.cmd.colorscheme(ch)
+                elseif roseTheme == "rose-pine-main" then
+                    ch = roseTheme
+                    vim.cmd.colorscheme(ch)
+                elseif roseTheme == "rose-pine-moon" then
+                    ch = roseTheme
+                    vim.cmd.colorscheme(ch)
+                end
+                saveTheme(roseTheme)
+            end)
         elseif choice == "kanagawa" then
+            vim.ui.select({ "kanagawa", "kanagawa-dragon", "kanagawa-lotus", "kanagawa-wave" }, {
+                prompt = "Choose " .. choice .. " themes",
+                format_item = function(item)
+                    return "" .. item
+                end,
+            }, function(kanagawaTheme)
+                if kanagawaTheme == "kanagawa" then
+                    ch = kanagawaTheme
+                    vim.cmd.colorscheme(ch)
+                elseif kanagawaTheme == "kanagawa-dragon" then
+                    ch = kanagawaTheme
+                    vim.cmd.colorscheme(ch)
+                elseif kanagawaTheme == "kanagawa-lotus" then
+                    ch = kanagawaTheme
+                    vim.cmd.colorscheme(ch)
+                elseif kanagawaTheme == "kanagawa-wave" then
+                    ch = kanagawaTheme
+                    vim.cmd.colorscheme(ch)
+                end
+                saveTheme(kanagawaTheme)
+            end)
+        elseif choice == "oxocarbon" then
             ch = choice
             vim.cmd.colorscheme(ch)
-        elseif choice == "kanagawa-dragon" then
-            ch = choice
-            vim.cmd.colorscheme(ch)
+        elseif choice == "fox" then
+            vim.ui.select({ "nightfox", "dayfox", "duskfox", "nordfox" }, {
+                prompt = "Choose " .. choice .. " themes",
+                format_item = function(item)
+                    return "" .. item
+                end,
+            }, function(foxTheme)
+                if foxTheme == "nightfox" then
+                    ch = foxTheme
+                    vim.cmd.colorscheme(ch)
+                elseif foxTheme == "dayfox" then
+                    ch = foxTheme
+                    vim.cmd.colorscheme(ch)
+                elseif foxTheme == "duskfox" then
+                    ch = foxTheme
+                    vim.cmd.colorscheme(ch)
+                elseif foxTheme == "nordfox" then
+                    ch = foxTheme
+                    vim.cmd.colorscheme(ch)
+                end
+                saveTheme(foxTheme)
+            end)
         end
-        local f = io.open(theme_file, "w")
-        if f then
-            f:write(choice)
-            f:close()
-        end
+        saveTheme(choice)
     end)
 end)
 
@@ -110,21 +186,25 @@ keymap.set("n", "<leader>ex", function()
                 Crterm:toggle()
             elseif choice == "Custom C/GCC command" then
                 vim.notify("default = [" .. flags .. "]")
-                Com = vim.ui.input({ prompt = "Enter gcc options for compile", default = flags }, function(input)
-                    print(flags)
-                    Com = input
-                    --     local Gccterm = Terminal:new({
-                    --         cmd = "gcc " .. file .. " -o " .. filename .. Com .. "&& ./" .. filename,
-                    --         direction = "float",
-                    --         close_on_exit = false,
-                    --         hidden = true,
-                    --     })
+                vim.ui.input({ prompt = "Enter gcc options for compile", default = flags }, function(input)
+                    if not input then
+                        return
+                    end
 
+                    local Gccterm = Terminal:new({
+                        cmd = "gcc " .. file .. " -o " .. filename .. input .. "&& ./" .. filename,
+                        direction = "float",
+                        close_on_exit = false,
+                        hidden = true,
+                    })
+
+                    local f = io.open(gcc_file, "w")
                     if f then
-                        f:write(Com)
+                        f:write(input)
                         f:close()
                     end
-                    --       Gccterm:toggle()
+
+                    Gccterm:toggle()
                 end)
             end
         end)
