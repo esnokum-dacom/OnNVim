@@ -14,6 +14,7 @@ end, opts)
 -- files
 local gcc_file = vim.fn.stdpath("config") .. "/gcc.txt"
 local theme_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
+local theme_opts = vim.fn.stdpath("state") .. "/background-type.txt"
 
 local fr = io.open(gcc_file, "r")
 local flags = ""
@@ -25,7 +26,15 @@ end
 local function saveTheme(themes)
     local f = io.open(theme_file, "w")
     if f then
-        f:write(themes)
+        f:write(themes .. "\n")
+        f:close()
+    end
+end
+
+local function saveThemeOpts(chopt)
+    local f = io.open(theme_opts, "w")
+    if f then
+        f:write(chopt .. "\n")
         f:close()
     end
 end
@@ -33,110 +42,134 @@ end
 -- colorscheme
 
 keymap.set("n", "<leader>sc", function()
-    vim.ui.select({ "gruvbox", "onedark", "nord", "rose-pine", "kanagawa", "oxocarbon", "fox" }, {
-        prompt = "Choose colorscheme ",
-        format_item = function(item)
-            return "" .. item
-        end,
-    }, function(choice)
-        local ch = ""
-        if choice == "gruvbox" then
-            vim.ui.select({ "gruvbox", "gruvbox-material", "retrobox" }, {
-                prompt = "Choose " .. choice .. " themes",
-                format_item = function(item)
-                    return "" .. item
-                end,
-            }, function(gruvThemes)
-                if gruvThemes == "gruvbox" then
-                    ch = gruvThemes
-                    vim.cmd.colorscheme(ch)
-                elseif gruvThemes == "gruvbox-material" then
-                    ch = gruvThemes
-                    vim.cmd.colorscheme(ch)
-                elseif gruvThemes == "retrobox" then
-                    ch = gruvThemes
-                    vim.cmd.colorscheme(ch)
-                end
-                saveTheme(gruvThemes)
-            end)
-        elseif choice == "onedark" then
-            ch = choice
-            vim.cmd.colorscheme(ch)
-        elseif choice == "nord" then
-            ch = choice
-            vim.cmd.colorscheme(ch)
-        elseif choice == "rose-pine" then
-            vim.ui.select({ "rose-pine", "rose-pine-dawn", "rose-pine-main", "rose-pine-moon" }, {
-                prompt = "Choose " .. choice .. " themes",
-                format_item = function(item)
-                    return "" .. item
-                end,
-            }, function(roseTheme)
-                if roseTheme == "rose-pine" then
-                    ch = roseTheme
-                    vim.cmd.colorscheme(ch)
-                elseif roseTheme == "rose-pine-dawn" then
-                    ch = roseTheme
-                    vim.cmd.colorscheme(ch)
-                elseif roseTheme == "rose-pine-main" then
-                    ch = roseTheme
-                    vim.cmd.colorscheme(ch)
-                elseif roseTheme == "rose-pine-moon" then
-                    ch = roseTheme
-                    vim.cmd.colorscheme(ch)
-                end
-                saveTheme(roseTheme)
-            end)
-        elseif choice == "kanagawa" then
-            vim.ui.select({ "kanagawa", "kanagawa-dragon", "kanagawa-lotus", "kanagawa-wave" }, {
-                prompt = "Choose " .. choice .. " themes",
-                format_item = function(item)
-                    return "" .. item
-                end,
-            }, function(kanagawaTheme)
-                if kanagawaTheme == "kanagawa" then
-                    ch = kanagawaTheme
-                    vim.cmd.colorscheme(ch)
-                elseif kanagawaTheme == "kanagawa-dragon" then
-                    ch = kanagawaTheme
-                    vim.cmd.colorscheme(ch)
-                elseif kanagawaTheme == "kanagawa-lotus" then
-                    ch = kanagawaTheme
-                    vim.cmd.colorscheme(ch)
-                elseif kanagawaTheme == "kanagawa-wave" then
-                    ch = kanagawaTheme
-                    vim.cmd.colorscheme(ch)
-                end
-                saveTheme(kanagawaTheme)
-            end)
-        elseif choice == "oxocarbon" then
-            ch = choice
-            vim.cmd.colorscheme(ch)
-        elseif choice == "fox" then
-            vim.ui.select({ "nightfox", "dayfox", "duskfox", "nordfox" }, {
-                prompt = "Choose " .. choice .. " themes",
-                format_item = function(item)
-                    return "" .. item
-                end,
-            }, function(foxTheme)
-                if foxTheme == "nightfox" then
-                    ch = foxTheme
-                    vim.cmd.colorscheme(ch)
-                elseif foxTheme == "dayfox" then
-                    ch = foxTheme
-                    vim.cmd.colorscheme(ch)
-                elseif foxTheme == "duskfox" then
-                    ch = foxTheme
-                    vim.cmd.colorscheme(ch)
-                elseif foxTheme == "nordfox" then
-                    ch = foxTheme
-                    vim.cmd.colorscheme(ch)
-                end
-                saveTheme(foxTheme)
-            end)
+    vim.ui.select(
+        { "gruvbox", "onedark", "nord", "rose-pine", "kanagawa", "oxocarbon", "fox", "---------", "change dark/light" },
+        {
+            prompt = "Choose colorscheme ",
+            format_item = function(item)
+                return "" .. item
+            end,
+        },
+        function(choice)
+            local ch = ""
+            local chopts = ""
+            if choice == "gruvbox" then
+                vim.ui.select({ "gruvbox", "gruvbox-material", "retrobox" }, {
+                    prompt = "Choose " .. choice .. " themes",
+                    format_item = function(item)
+                        return "" .. item
+                    end,
+                }, function(gruvThemes)
+                    if gruvThemes == "gruvbox" then
+                        ch = gruvThemes
+                        vim.cmd.colorscheme(ch)
+                        saveTheme(gruvThemes)
+                    elseif gruvThemes == "gruvbox-material" then
+                        ch = gruvThemes
+                        vim.cmd.colorscheme(ch)
+                        saveTheme(gruvThemes)
+                    elseif gruvThemes == "retrobox" then
+                        ch = gruvThemes
+                        vim.cmd.colorscheme(ch)
+                        saveTheme(gruvThemes)
+                    end
+                end)
+            elseif choice == "onedark" then
+                ch = choice
+                vim.cmd.colorscheme(ch)
+            elseif choice == "nord" then
+                ch = choice
+                vim.cmd.colorscheme(ch)
+            elseif choice == "rose-pine" then
+                vim.ui.select({ "rose-pine", "rose-pine-dawn", "rose-pine-main", "rose-pine-moon" }, {
+                    prompt = "Choose " .. choice .. " themes",
+                    format_item = function(item)
+                        return "" .. item
+                    end,
+                }, function(roseTheme)
+                    if roseTheme == "rose-pine" then
+                        ch = roseTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif roseTheme == "rose-pine-dawn" then
+                        ch = roseTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif roseTheme == "rose-pine-main" then
+                        ch = roseTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif roseTheme == "rose-pine-moon" then
+                        ch = roseTheme
+                        vim.cmd.colorscheme(ch)
+                    end
+                    saveTheme(roseTheme)
+                end)
+            elseif choice == "kanagawa" then
+                vim.ui.select({ "kanagawa", "kanagawa-dragon", "kanagawa-lotus", "kanagawa-wave" }, {
+                    prompt = "Choose " .. choice .. " themes",
+                    format_item = function(item)
+                        return "" .. item
+                    end,
+                }, function(kanagawaTheme)
+                    if kanagawaTheme == "kanagawa" then
+                        ch = kanagawaTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif kanagawaTheme == "kanagawa-dragon" then
+                        ch = kanagawaTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif kanagawaTheme == "kanagawa-lotus" then
+                        ch = kanagawaTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif kanagawaTheme == "kanagawa-wave" then
+                        ch = kanagawaTheme
+                        vim.cmd.colorscheme(ch)
+                    end
+                    saveTheme(kanagawaTheme)
+                end)
+            elseif choice == "oxocarbon" then
+                ch = choice
+                vim.cmd.colorscheme(ch)
+            elseif choice == "fox" then
+                vim.ui.select({ "nightfox", "dayfox", "duskfox", "nordfox" }, {
+                    prompt = "Choose " .. choice .. " themes",
+                    format_item = function(item)
+                        return "" .. item
+                    end,
+                }, function(foxTheme)
+                    if foxTheme == "nightfox" then
+                        ch = foxTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif foxTheme == "dayfox" then
+                        ch = foxTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif foxTheme == "duskfox" then
+                        ch = foxTheme
+                        vim.cmd.colorscheme(ch)
+                    elseif foxTheme == "nordfox" then
+                        ch = foxTheme
+                        vim.cmd.colorscheme(ch)
+                    end
+                    saveTheme(foxTheme)
+                end)
+            elseif choice == "change dark/light" then
+                vim.ui.select({ "dark", "light" }, {
+                    prompt = "Choose light ambient",
+                    format_item = function(item)
+                        return "" .. item
+                    end,
+                }, function(ambientTheme)
+                    if ambientTheme == "dark" then
+                        chopts = ambientTheme
+                        vim.o.background = "dark"
+                        saveThemeOpts(chopts)
+                    elseif ambientTheme == "light" then
+                        chopts = ambientTheme
+                        vim.o.background = "light"
+                        saveThemeOpts(chopts)
+                    end
+                end)
+            end
+            saveTheme(choice)
         end
-        saveTheme(choice)
-    end)
+    )
 end)
 
 -- buffers
