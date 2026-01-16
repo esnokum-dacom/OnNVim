@@ -77,9 +77,11 @@ keymap.set("n", "<leader>sc", function()
             elseif choice == "onedark" then
                 ch = choice
                 vim.cmd.colorscheme(ch)
+                saveTheme(choice)
             elseif choice == "nord" then
                 ch = choice
                 vim.cmd.colorscheme(ch)
+                saveTheme(choice)
             elseif choice == "rose-pine" then
                 vim.ui.select({ "rose-pine", "rose-pine-dawn", "rose-pine-main", "rose-pine-moon" }, {
                     prompt = "Choose " .. choice .. " themes",
@@ -127,6 +129,7 @@ keymap.set("n", "<leader>sc", function()
             elseif choice == "oxocarbon" then
                 ch = choice
                 vim.cmd.colorscheme(ch)
+                saveTheme(choice)
             elseif choice == "fox" then
                 vim.ui.select({ "nightfox", "dayfox", "duskfox", "nordfox" }, {
                     prompt = "Choose " .. choice .. " themes",
@@ -149,6 +152,7 @@ keymap.set("n", "<leader>sc", function()
                     end
                     saveTheme(foxTheme)
                 end)
+                saveTheme(choice)
             elseif choice == "change dark/light" then
                 vim.ui.select({ "dark", "light" }, {
                     prompt = "Choose light ambient",
@@ -167,7 +171,6 @@ keymap.set("n", "<leader>sc", function()
                     end
                 end)
             end
-            saveTheme(choice)
         end
     )
 end)
@@ -250,7 +253,7 @@ keymap.set("n", "<leader>ex", function()
         }, function(choice)
             if choice == "C vanilla" then
                 local Cterm = Terminal:new({
-                    cmd = Com,
+                    cmd = "g++ " .. file .. " -o " .. filename .. " && ./" .. filename,
                     direction = "float",
                     close_on_exit = false,
                     hidden = true,

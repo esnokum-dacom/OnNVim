@@ -2,6 +2,7 @@ require("config.keybinds")
 require("config.vimopts")
 require("config.lazy")
 require("config.input")
+
 local theme_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
 local theme_opt = vim.fn.stdpath("state") .. "/background-type.txt"
 
