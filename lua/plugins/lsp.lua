@@ -13,6 +13,8 @@ return {
 				"typescript",
 				"c",
 				"cpp",
+				"zig",
+				"dockerfile",
 				"html",
 				"css",
 			}
@@ -119,6 +121,7 @@ return {
 					"stylua",
 					"html",
 					"cssls",
+					"zls",
 					"ts_ls",
 					"vimls",
 					"eslint",

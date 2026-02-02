@@ -14,6 +14,7 @@ return {
                 "javascript",
                 "query",
                 "typescript",
+                "dockerfile",
                 "tsx",
                 "rust",
                 "zig",
