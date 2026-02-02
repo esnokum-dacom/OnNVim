@@ -1,4 +1,4 @@
 return {
-	"MunifTanjim/nui.nvim",
-	config = function() end,
+    "MunifTanjim/nui.nvim",
+    config = function() end,
 }
