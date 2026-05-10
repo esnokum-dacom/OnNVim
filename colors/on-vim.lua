@@ -2,93 +2,93 @@ local pc = dofile(os.getenv("HOME") .. "/.cache/wal/colors.lua")
 
 vim.cmd("highlight clear")
 if vim.fn.exists("syntax_on") then
-	vim.cmd("syntax reset")
+    vim.cmd("syntax reset")
 end
 
 vim.g.colors_name = "on-vim"
 
-local c = {
-	bg = pc.background,
-	fg = pc.foreground,
-	red = pc.color1,
-	green = pc.color2,
-	blue = pc.color3,
-	magenta = pc.color4,
-	yellow = pc.color5,
-	cyan = pc.color6,
-	gray = pc.color7,
-	comment = pc.color9,
-	cursor = pc.color8,
+C = {
+    bg = pc.background,
+    fg = pc.foreground,
+    cinnamon = pc.color0,
+    red = pc.color1,
+    green = pc.color2,
+    blue = pc.color3,
+    magenta = pc.color4,
+    yellow = pc.color5,
+    cyan = pc.color6,
+    gray = pc.color7,
+    comment = pc.color9,
+    cursor = pc.color8,
 }
 
 local hl = function(g, opts)
-	vim.api.nvim_set_hl(0, g, opts)
+    vim.api.nvim_set_hl(0, g, opts)
 end
 
-hl("Normal", { fg = c.fg, bg = "NONE" })
-hl("NormalFloat", { fg = c.fg, bg = c.bg })
-hl("Cursor", { fg = c.fg, bg = c.red })
-hl("LineNr", { fg = c.fg, bg = c.bg })
-hl("CursorLineNr", { fg = c.fg, bg = c.red })
-hl("Comment", { fg = c.fg, bg = c.bg })
-hl("Visual", { fg = c.fg, bg = c.green })
-hl("StatusLine", { fg = c.fg, bg = c.bg })
+hl("Normal", { fg = C.fg, bg = "NONE" })
+hl("NormalFloat", { fg = C.fg, bg = C.bg })
+hl("Cursor", { fg = C.cinnamon, bg = C.red })
+hl("LineNr", { fg = C.fg, bg = C.bg })
+hl("CursorLine", { fg = C.fg, bg = C.red })
+hl("CursorLineNr", { fg = C.cinnamon, bg = C.red })
+hl("Comment", { fg = C.fg, bg = C.bg })
+hl("Visual", { fg = C.fg, bg = C.green })
+hl("StatusLine", { fg = C.fg, bg = C.bg })
 
 -- syntax
 
-hl("Keyword", { fg = c.magenta, bold = true })
-hl("Function", { fg = c.blue })
-hl("String", { fg = c.green })
-hl("Number", { fg = c.yellow })
-hl("Type", { fg = c.cyan })
-hl("Constant", { fg = c.red })
-hl("Operator", { fg = c.fg })
-hl("Delimiter", { fg = c.fg })
+hl("Keyword", { fg = C.magenta, bold = true })
+hl("FunCtion", { fg = C.blue })
+hl("String", { fg = C.green })
+hl("Number", { fg = C.yellow })
+hl("Type", { fg = C.Cyan })
+hl("Constant", { fg = C.red })
+hl("Operator", { fg = C.fg })
+hl("Delimiter", { fg = C.fg })
 
 -- LSP
 
-hl("DiagnosticError", { fg = c.red })
-hl("DiagnosticWarn", { fg = c.yellow })
-hl("DiagnosticInfo", { fg = c.blue })
-hl("DiagnosticHint", { fg = c.cyan })
+hl("DiagnostiCError", { fg = C.red })
+hl("DiagnostiCWarn", { fg = C.yellow })
+hl("DiagnostiCInfo", { fg = C.blue })
+hl("DiagnostiCHint", { fg = C.Cyan })
+hl("netrwDir", { fg = C.green })
 
 -- ETC
-hl("@variable", { fg = c.fg })
-hl("@property", { fg = c.green })
-hl("@type.builtin", { fg = c.cyan })
-hl("@keyword.modifier", { fg = c.cyan })
-hl("@keyword.import", { fg = c.magenta })
-hl("@variable.builtin", { fg = c.red })
-hl("@function", { fg = c.blue })
-hl("@function.call", { fg = c.blue })
-hl("@keyword", { fg = c.magenta, bold = true })
-hl("@string", { fg = c.green })
-hl("@comment", { fg = c.comment, italic = true })
-hl("@type", { fg = c.cyan })
-hl("@tag", { fg = c.red })
-hl("@attribute", { fg = c.yellow })
-hl("@punctuation", { fg = c.green })
-hl("@punctuation.bracket", { fg = c.cursor })
-hl("@constructor", { fg = c.green })
+hl("@variable", { fg = C.fg })
+hl("@property", { fg = C.green })
+hl("@type.builtin", { fg = C.Cyan })
+hl("@keyword.modifier", { fg = C.Cyan })
+hl("@keyword.import", { fg = C.magenta })
+hl("@variable.builtin", { fg = C.red })
+hl("@funCtion", { fg = C.blue })
+hl("@funCtion.Call", { fg = C.blue })
+hl("@keyword", { fg = C.magenta, bold = true })
+hl("@string", { fg = C.green })
+hl("@Comment", { fg = C.Comment })
+hl("@type", { fg = C.Cyan })
+hl("@tag", { fg = C.red })
+hl("@attribute", { fg = C.yellow })
+hl("@punCtuation", { fg = C.green })
+hl("@punCtuation.braCket", { fg = C.Cursor })
+hl("@ConstruCtor", { fg = C.green })
 
-hl("ModeMsg", { fg = c.red })
-hl("MoreMsg", { fg = c.red })
-hl("Question", { fg = c.red })
+hl("ModeMsg", { fg = C.red })
+hl("MoreMsg", { fg = C.red })
+hl("Question", { fg = C.red })
 
-hl("Tag", { fg = c.red })
-hl("Special", { fg = c.red })
-hl("SpecialChar", { fg = c.red })
-hl("SpecialComment", { fg = c.red })
-hl("Debug", { fg = c.red })
+hl("Tag", { fg = C.red })
+hl("SpeCial", { fg = C.red })
+hl("SpeCialChar", { fg = C.red })
+hl("SpeCialComment", { fg = C.red })
+hl("Debug", { fg = C.red })
 
-hl("lualine_a_normal", { fg = c.bg, bg = c.blue })
-hl("lualine_b_normal", { fg = c.fg, bg = c.red })
-hl("lualine_c_normal", { fg = c.fg, bg = c.red })
-
-hl("lualine_a_insert", { fg = c.fg, bg = c.green })
-hl("lualine_a_replace", { fg = c.fg, bg = c.red })
-hl("lualine_a_command", { fg = c.fg, bg = c.yellow })
-
-hl("lualine_a_inactive", { fg = c.gray, bg = "NONE" })
-hl("lualine_b_inactive", { fg = c.gray, bg = "NONE" })
-hl("lualine_c_inactive", { fg = c.gray, bg = "NONE" })
+-- blink.cmp
+hl("BlinkCmpMenu", { fg = C.red, bg = "NONE" })
+hl("BlinkCmpMenuBorder", { fg = C.red, bg = "NONE" })
+hl("BlinkCmpMenuSelectionMenuSelection", { fg = C.green, bg = C.red })
+hl("BlinkCmpDoc", { fg = C.red, bg = "NONE" })
+hl("BlinkCmpDocBorder", { fg = C.red, bg = "NONE" })
+hl("BlinkCmpDocCursorLine", { fg = C.green, bg = C.red })
+hl("BlinkCmpGhostText", { fg = C.gray })

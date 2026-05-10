@@ -9,5 +9,6 @@ vim.opt.termguicolors = true
 vim.opt.undofile = true
 vim.o.autoindent = true
 vim.api.nvim_set_hl(0, "Normal", { bg = "none" })
+vim.filetype.add({ extension = { tsx = "typescriptreact", jsx = "javacriptreact" } })
 
 vim.lsp.enable("lua_ls")
