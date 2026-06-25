@@ -88,4 +88,10 @@ return {
             vim.cmd.colorscheme("catppuccin")
         end,
     },
+    {
+	"kdheepak/monochrome.nvim",
+	name = "monochrome",
+        priority = 1000,
+    },
 }
+

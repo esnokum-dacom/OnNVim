@@ -1,1 +1,1 @@
--lncurses
+-Wall -Wextra -lx11

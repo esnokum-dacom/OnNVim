@@ -56,6 +56,7 @@ local colorschemes = {
     ["monokai-nightasty"] = {},
     ["darcula-dark"] = { "dracula", "darcula-dark", "darcula-solid" },
     poimandres = {},
+    monochrome = {},
     onvim = {},
 }
 
@@ -74,6 +75,7 @@ local order = {
     "monokai-nightasty",
     "darcula-dark",
     "poimandres",
+    "monochrome",
     "on-vim",
     "──────────",
     "change dark/light",
