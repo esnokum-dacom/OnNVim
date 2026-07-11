@@ -4,11 +4,35 @@ local opts = { noremap = true, silent = true }
 vim.g.mapleader = " "
 vim.g.maplocalleader = " "
 
+local shell = vim.o.shell
+
+-- Harpoon
+keymap.set("n", "<Tab>", function ()
+    require("harpoon.ui").toggle_quick_menu()
+end, opts)
+
+keymap.set("n", "<M-a>", function ()
+    require("harpoon.mark").add_file()
+end, opts)
+
+for i = 1, 9 do
+    local lhs = "<M-" .. i .. ">"
+
+    vim.keymap.set("n", lhs, function()
+        require("harpoon.ui").nav_file(i)
+    end, opts)
+end
+
 -- fzf lua
-keymap.set("n", "<Tab>", "<cmd>FzfLua buffers<CR>", opts)
 keymap.set("n", "<leader><leader>", "<cmd>FzfLua files<CR>", opts)
 keymap.set("n", "<leader>fr", function()
-    FzfLua.live_grep({ search = vim.fn.input("Word to grep ") })
+    vim.ui.input({ prompt = "grep word: " }, function(input)
+        if not input or input == "" then
+            return
+        end
+
+        require("fzf-lua").live_grep({ search = input })
+    end)
 end, opts)
 
 -- files
@@ -54,9 +78,9 @@ local colorschemes = {
     darkvoid = {},
     bamboo = { "bamboo", "bamboo-light", "bamboo-multiplex", "bamboo-vulgaris" },
     ["monokai-nightasty"] = {},
-    ["darcula-dark"] = { "dracula", "darcula-dark", "darcula-solid" },
     poimandres = {},
     monochrome = {},
+    vscode = {},
     onvim = {},
 }
 
@@ -76,6 +100,7 @@ local order = {
     "darcula-dark",
     "poimandres",
     "monochrome",
+    "vscode",
     "on-vim",
     "──────────",
     "change dark/light",
@@ -148,48 +173,34 @@ keymap.set("n", "<leader>ex", function()
 
     local Com
 
-    if vim.fn.has("win32") == 1 then
-        Com = "gcc " .. file .. " -o " .. filename .. " && " .. filename .. ".exe"
-    else
-        Com = "gcc " .. file .. " -o " .. filename .. " && ./" .. filename
-    end
+    Com = "make"
 
     if filetype == "c" then
-        vim.ui.select({ "C vanilla", "C (raylib)", "Custom C/GCC command" }, {
+        vim.ui.select({ "C (Makefile)", "Custom CC command" }, {
             prompt = "Choose compiler ",
             format_item = function(item)
                 return "" .. item
             end,
         }, function(choice)
-            if choice == "C vanilla" then
+            if choice == "C (Makefile)" then
                 local Cterm = Terminal:new({
                     cmd = Com,
                     direction = "float",
-                    close_on_exit = false,
-                    hidden = true,
+		    close_on_exit = false,
+		    auto_scroll = true,
                 })
                 Cterm:toggle()
-            elseif choice == "C (raylib)" then
-                Com = "gcc " .. file .. " -o " .. filename .. " -I./include -L./lib -lraylib && ./" .. filename
-                local Crterm = Terminal:new({
-                    cmd = Com,
-                    direction = "float",
-                    close_on_exit = false,
-                    hidden = true,
-                })
-                Crterm:toggle()
-            elseif choice == "Custom C/GCC command" then
+            elseif choice == "Custom CC command" then
                 vim.notify("default = [" .. flags .. "]")
-                vim.ui.input({ prompt = "Enter gcc options for compile", default = flags }, function(input)
+                vim.ui.input({ prompt = "Execute command", default = flags }, function(input)
                     if not input then
                         return
                     end
 
                     local Gccterm = Terminal:new({
-                        cmd = "gcc " .. file .. " -o " .. filename .. input .. "&& ./" .. filename,
-                        direction = "float",
-                        close_on_exit = false,
-                        hidden = true,
+			cmd = shell .. " -c '" .. input .. "'",
+			direction = "float",
+			close_on_exit = false,
                     })
 
                     local f = io.open(gcc_file, "w")
@@ -198,35 +209,25 @@ keymap.set("n", "<leader>ex", function()
                         f:close()
                     end
 
-                    Gccterm:toggle()
+                    Gccterm:open()
                 end)
             end
         end)
     elseif filetype == "cpp" then
-        vim.ui.select({ "C vanilla", "C (raylib)", "Custom C/GCC command" }, {
+        vim.ui.select({ "C++ (Makefile)", "Custom command" }, {
             prompt = "Choose compiler ",
             format_item = function(item)
                 return "" .. item
             end,
         }, function(choice)
-            if choice == "C vanilla" then
+            if choice == "C++ (Makefile)" then
                 local Cterm = Terminal:new({
-                    cmd = "g++ " .. file .. " -o " .. filename .. " && ./" .. filename,
-                    direction = "float",
-                    close_on_exit = false,
-                    hidden = true,
-                })
-                Cterm:toggle()
-            elseif choice == "C (raylib)" then
-                Com = "g++ " .. file .. " -o " .. filename .. " -I./include -L./lib -lraylib && ./" .. filename
-                local Crterm = Terminal:new({
                     cmd = Com,
                     direction = "float",
                     close_on_exit = false,
-                    hidden = true,
                 })
-                Crterm:toggle()
-            elseif choice == "Custom C/GCC command" then
+                Cterm:toggle()
+            elseif choice == "Custom command" then
                 vim.notify("default = [" .. flags .. "]")
                 vim.ui.input({ prompt = "Enter gcc options for compile", default = flags }, function(input)
                     if not input then
@@ -234,10 +235,9 @@ keymap.set("n", "<leader>ex", function()
                     end
 
                     local Gccterm = Terminal:new({
-                        cmd = "g++ " .. file .. " " .. input .. " -o " .. filename .. " && ./" .. filename,
+			cmd = shell .. " -c '" .. input .. "'",
                         direction = "float",
                         close_on_exit = false,
-                        hidden = true,
                     })
 
                     local f = io.open(gcc_file, "w")
@@ -250,46 +250,5 @@ keymap.set("n", "<leader>ex", function()
                 end)
             end
         end)
-    elseif filetype == "lua" then
-        vim.ui.select({ "Lua (Vainilla)", "Lua (love2D)" }, {
-            prompt = "choose Which ",
-            format_item = function(item)
-                return "" .. item
-            end,
-        }, function(Lchoice)
-            if Lchoice == "Lua (Vainilla)" then
-                local luaterm = Terminal:new({
-                    cmd = "lua " .. file,
-                    direction = "float",
-                    close_on_exit = false,
-                    hidden = true,
-                })
-                luaterm:toggle()
-            elseif Lchoice == "Lua (love2D)" then
-                local luloveterm = Terminal:new({
-                    cmd = "lovec .",
-                    direction = "float",
-                    close_on_exit = true,
-                    hidden = true,
-                })
-                luloveterm:toggle()
-            end
-        end)
-    elseif filetype == "python" then
-        local pyterm = Terminal:new({
-            cmd = "python " .. file,
-            direction = "float",
-            close_on_exit = false,
-            hidden = true,
-        })
-        pyterm:toggle()
-    elseif filetype == "javascript" then
-        local jsterm = Terminal:new({
-            cmd = "node " .. file,
-            direction = "float",
-            close_on_exit = false,
-            hidden = true,
-        })
-        jsterm:toggle()
     end
 end)

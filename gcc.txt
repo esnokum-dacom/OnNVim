@@ -1,1 +1,1 @@
--Wall -Wextra -lx11
+./main

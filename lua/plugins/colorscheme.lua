@@ -66,12 +66,6 @@ return {
         priority = 1000,
     },
     {
-        "xiantang/darcula-dark.nvim",
-        dependencies = {
-            "nvim-treesitter/nvim-treesitter",
-        },
-    },
-    {
         "olivercederborg/poimandres.nvim",
         lazy = false,
         priority = 1000,
@@ -91,6 +85,12 @@ return {
     {
 	"kdheepak/monochrome.nvim",
 	name = "monochrome",
+        priority = 1000,
+    },
+    {
+	"Mofiqul/vscode.nvim",
+	name = "vscode",
+        lazy = false,
         priority = 1000,
     },
 }
