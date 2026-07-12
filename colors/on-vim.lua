@@ -28,7 +28,7 @@ end
 
 hl("Normal", { fg = C.fg, bg = C.bg })
 hl("NormalFloat", { fg = C.fg, bg = C.bg })
-hl("Cursor", { fg = C.cinnamon, bg = C.red })
+hl("Cursor", { fg = C.green, bg = C.red })
 hl("LineNr", { fg = C.fg, bg = C.bg })
 hl("CursorLine", { fg = C.fg, bg = C.red })
 hl("CursorLineNr", { fg = C.cinnamon, bg = C.red })

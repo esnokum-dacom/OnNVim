@@ -35,6 +35,12 @@ keymap.set("n", "<leader>fr", function()
     end)
 end, opts)
 
+-- oil
+keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
+
+-- fern
+keymap.set("n", "<leader>e", "<cmd>Fern . -drawer -toggle<cr>", { desc = "Open Fern FE" })
+
 -- files
 local gcc_file = vim.fn.stdpath("config") .. "/gcc.txt"
 local theme_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
