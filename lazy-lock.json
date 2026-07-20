@@ -6,7 +6,6 @@
   "catppuccin": { "branch": "main", "commit": "05e8787020dcfdb937bf2ff23855ea2415b4e072" },
   "darkvoid.nvim": { "branch": "master", "commit": "45be993a5617e05811b6b293c05e6aded7003cc9" },
   "dressing.nvim": { "branch": "master", "commit": "2d7c2db2507fa3c4956142ee607431ddb2828639" },
-  "fern-renderer-web-devicons.nvim": { "branch": "master", "commit": "71b44ab89b037acc3ef87bdec314e128853c6256" },
   "friendly-snippets": { "branch": "main", "commit": "6cd7280adead7f586db6fccbd15d2cac7e2188b9" },
   "fzf-lua": { "branch": "main", "commit": "532d463f5c83595192fe740572d8fd6902b2217a" },
   "gruvbox-material": { "branch": "master", "commit": "11d779b26a9ab2b3db8c22c6ac9fb6e8ed4fea79" },
@@ -28,6 +27,7 @@
   "nvim-colorizer.lua": { "branch": "master", "commit": "149fbd9f5e25511b0a8bad3ccecd43d1bc584f86" },
   "nvim-lspconfig": { "branch": "master", "commit": "5955a100ae7155962330643924e21a798b9bdc91" },
   "nvim-surround": { "branch": "main", "commit": "1098d7b3c34adcfa7feb3289ee434529abd4afd1" },
+  "nvim-tree.lua": { "branch": "master", "commit": "cf18a662cd5f200361b6fedfb794eed583e075e1" },
   "nvim-web-devicons": { "branch": "master", "commit": "09d1324e264c6950262dbe02a9bce2933a6800db" },
   "oil.nvim": { "branch": "master", "commit": "b73018b75affd13fa38e2fc94ef753b465f770d7" },
   "onedark.nvim": { "branch": "master", "commit": "df4792accde9db0043121f32628bcf8e645d9aea" },
@@ -36,6 +36,5 @@
   "poimandres.nvim": { "branch": "main", "commit": "a488957d803943a4201ac3b774913fcafa9e6b3a" },
   "rose-pine": { "branch": "main", "commit": "ff483051a47e27d84bdef47703538df1ed9f4a47" },
   "toggleterm.nvim": { "branch": "main", "commit": "50ea089fc548917cc3cc16b46a8211833b9e3c7c" },
-  "vim-fern": { "branch": "main", "commit": "3d580357c09e199b0fa7d560b2db1ad05de02b9c" },
   "vscode": { "branch": "main", "commit": "aa1102a7e15195c9cca22730b09224a7f7745ba8" }
 }

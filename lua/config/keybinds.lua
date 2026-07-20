@@ -38,8 +38,8 @@ end, opts)
 -- oil
 keymap.set("n", "-", "<cmd>Oil<cr>", { desc = "Open parent directory" })
 
--- fern
-keymap.set("n", "<leader>e", "<cmd>Fern . -drawer -toggle<cr>", { desc = "Open Fern FE" })
+-- nvim-tree
+keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<cr>", { desc = "Open nvim-tree" })
 
 -- files
 local gcc_file = vim.fn.stdpath("config") .. "/gcc.txt"

@@ -6,6 +6,13 @@ require("config.input")
 local theme_file = vim.fn.stdpath("state") .. "/colorscheme.txt"
 local theme_opt = vim.fn.stdpath("state") .. "/background-type.txt"
 
+vim.opt.fillchars:append({
+  vert = " ",
+  vertleft = " ",
+  vertright = " ",
+  verthoriz = " ",
+})
+
 local f = io.open(theme_file, "r")
 if f then
     local theme = f:read("*l")
